@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vaibhav Singh | Machine Learning Engineer</title>
+<meta name="description" content="Vaibhav Singh, Machine Learning Engineer at REint Technologies. Power-market forecasting and trading, LLM evaluation, deep RL and generative models.">
+<meta name="author" content="Vaibhav Singh">
+<meta name="theme-color" content="#070B14">
+<!-- Link previews (LinkedIn, WhatsApp, X). Update both URLs if the domain changes. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Vaibhav Singh | Machine Learning Engineer">
+<meta property="og:description" content="Forecasting, trading and LLM systems for power markets. Research, train, productionize.">
+<meta property="og:url" content="https://singhvaibhav924.github.io/">
+<meta property="og:image" content="https://singhvaibhav924.github.io/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Vaibhav Singh","jobTitle":"Machine Learning Engineer","email":"mailto:singhsikarwarvaibhav@gmail.com",
+"worksFor":{"@type":"Organization","name":"REint Technologies"},"alumniOf":"Jawaharlal Nehru University",
+"sameAs":["https://www.linkedin.com/in/i-m-d-vaibhav/","https://github.com/singhvaibhav924","https://www.kaggle.com/imdvaibhav","https://x.com/ZeroMeanSigma"]}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23070B14'/><path d='M4 22 C9 22 9 12 13 12 S17 18 20 16 S24 7 28 9' fill='none' stroke='%23FFB547' stroke-width='3' stroke-linecap='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070B14;
+  --panel:rgba(13,19,33,.74);
+  --panel-solid:#0D1321;
+  --text:#EEF2F7;
+  --soft:#B6C0CF;
+  --muted:#7D8899;
+  --amber:#FFB547;
+  --cyan:#4FD1C5;
+  --line:rgba(255,255,255,.08);
+  --display:"Bricolage Grotesque",system-ui,sans-serif;
+  --body:"Geist",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --gut:clamp(16px,6vw,96px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+::selection{background:var(--amber);color:var(--bg)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:4px}
+canvas#scene{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;transition:opacity .6s}
+body.nobg canvas#scene{opacity:0}
+main,footer,nav{position:relative;z-index:1}
+.mono{font-family:var(--mono)}
+
+/* nav */
+#progress{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--cyan),var(--amber));z-index:20}
+nav{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px var(--gut);background:rgba(7,11,20,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-weight:700;font-size:18px}
+.logo svg{width:26px;height:26px}
+nav ul{display:flex;align-items:center;gap:6px;list-style:none}
+nav a.nl{text-decoration:none;color:var(--soft);font-size:14px;padding:6px 10px;border-radius:8px;transition:color .2s,background .2s}
+nav a.nl:hover{color:var(--text)}
+nav a.nl.on{color:var(--text);background:rgba(255,255,255,.06)}
+.kbtn{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;color:var(--muted);background:none;border:1px solid var(--line);border-radius:8px;padding:6px 9px;cursor:pointer}
+.kbtn:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
+.nav-cv{text-decoration:none;font-size:14px;font-weight:500;color:var(--bg);background:var(--amber);padding:7px 14px;border-radius:8px}
+.nav-cv:hover{filter:brightness(1.08)}
+@media (max-width:1000px){nav li.hide-m{display:none}}
+
+/* layout */
+section{padding:120px var(--gut)}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:48px}
+.sec-head .idx{font-family:var(--mono);font-size:13px;color:var(--amber)}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(32px,4.5vw,52px);line-height:1.05;letter-spacing:-.015em}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.rv.vis{opacity:1;transform:none}
+
+/* hero */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding-top:96px;padding-bottom:110px;position:relative}
+.eyebrow{font-family:var(--mono);font-size:13px;color:var(--cyan);letter-spacing:.08em;text-transform:uppercase}
+.eyebrow b{color:var(--amber);font-weight:500}
+.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(56px,10vw,132px);line-height:.92;letter-spacing:-.025em;margin:20px 0 24px}
+.pitch{max-width:600px;font-size:clamp(17px,2vw,21px);line-height:1.55;color:var(--soft)}
+.pitch strong{color:var(--text);font-weight:500}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-size:15px;font-weight:500;padding:11px 18px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.03);transition:border-color .2s,background .2s,transform .2s}
+.btn:hover{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.06);transform:translateY(-1px)}
+.btn.primary{background:var(--text);color:var(--bg);border-color:var(--text)}
+.btn.primary:hover{background:#fff}
+.legend{position:fixed;top:78px;right:var(--gut);z-index:5;display:flex;flex-wrap:wrap;gap:16px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:rgba(7,11,20,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);font-family:var(--mono);font-size:11.5px;color:var(--muted);transition:opacity .4s,transform .4s}
+.legend.away,body.nobg .legend{opacity:0;transform:translateY(-8px);pointer-events:none}
+@media (max-width:600px){.legend{gap:10px;font-size:10.5px;padding:6px 9px}}
+.legend span{display:flex;align-items:center;gap:8px}
+.legend i{display:inline-block;width:22px;border-top:2px solid var(--cyan)}
+.legend i.f{border-top:2px dashed var(--amber)}
+.legend i.b{height:10px;border:none;background:rgba(255,181,71,.2)}
+.ticker{position:absolute;left:0;right:0;bottom:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(7,11,20,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);overflow:hidden;white-space:nowrap}
+.track{display:inline-flex;animation:tick 46s linear infinite;padding:13px 0}
+.ticker:hover .track{animation-play-state:paused}
+.titem{font-family:var(--mono);font-size:13px;color:var(--muted);padding:0 26px;border-right:1px solid var(--line)}
+.titem em{font-style:normal;color:var(--text);font-weight:500;margin:0 8px}
+.titem .up{color:var(--cyan)} .titem .dn{color:var(--amber)}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:56px}
+.about-grid p{color:var(--soft);font-size:18px;margin-bottom:18px;max-width:640px}
+.about-grid p strong{color:var(--text);font-weight:500}
+.now{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px;align-self:start}
+.now h3{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 0 rgba(79,209,197,.6);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(79,209,197,0)}100%{box-shadow:0 0 0 0 rgba(79,209,197,0)}}
+.now ul{list-style:none;display:grid;gap:12px}
+.now li{color:var(--soft);font-size:15px;padding-left:18px;position:relative}
+.now li::before{content:"";position:absolute;left:0;top:.7em;width:8px;border-top:2px dashed var(--amber)}
+.pipe{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:64px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel)}
+.stage{padding:26px;position:relative}
+.stage+.stage{border-left:1px solid var(--line)}
+.stage+.stage::before{content:"";position:absolute;left:-7px;top:34px;width:12px;height:12px;background:var(--panel-solid);border-top:1px solid var(--line);border-right:1px solid var(--line);transform:rotate(45deg)}
+.stage .n{font-family:var(--mono);font-size:12px;color:var(--amber)}
+.stage h3{font-family:var(--display);font-size:24px;font-weight:700;margin:6px 0 12px}
+.stage ul{list-style:none;display:grid;gap:8px}
+.stage li{font-size:14.5px;color:var(--soft)}
+.stage li b{color:var(--text);font-weight:500}
+.stage p{font-size:15px;color:var(--soft);line-height:1.6}
+@media (max-width:860px){.about-grid{grid-template-columns:1fr;gap:32px}.pipe{grid-template-columns:1fr}.stage+.stage{border-left:none;border-top:1px solid var(--line)}.stage+.stage::before{left:34px;top:-7px;transform:rotate(-45deg)}}
+
+/* experience */
+.tl{position:relative;padding-left:36px;max-width:920px}
+.tl::before,.tl .fill{content:"";position:absolute;left:6px;top:8px;width:2px;border-radius:2px}
+.tl::before{bottom:8px;background:var(--line)}
+.tl .fill{height:0;background:linear-gradient(var(--cyan),var(--amber))}
+.job{position:relative;padding-bottom:56px}
+.job:last-child{padding-bottom:0}
+.job::before{content:"";position:absolute;left:-36px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--muted);transition:border-color .4s,background .4s}
+.job.vis::before{border-color:var(--cyan);background:rgba(79,209,197,.2)}
+.job .when{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.job h3{font-family:var(--display);font-size:clamp(22px,2.6vw,28px);font-weight:700;line-height:1.2;margin:6px 0 2px}
+.job .org{color:var(--soft);font-size:16px}
+.job .org span{color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.chip{font-family:var(--mono);font-size:12.5px;padding:5px 10px;border-radius:999px;border:1px solid rgba(255,181,71,.3);color:var(--amber);background:rgba(255,181,71,.06)}
+.job ul{list-style:none;display:grid;gap:9px;margin-top:12px}
+.job li{color:var(--soft);padding-left:20px;position:relative}
+.job li::before{content:"";position:absolute;left:0;top:.75em;width:10px;border-top:1px solid var(--muted)}
+.job li b{color:var(--text);font-weight:500}
+.tlinks{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.tlink{font-family:var(--mono);font-size:12.5px;color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(79,209,197,.35);padding-bottom:1px}
+.tlink:hover{border-color:var(--cyan)}
+
+/* projects */
+.projects{display:grid;gap:40px}
+.proj{display:grid;grid-template-columns:1fr 1.1fr;gap:44px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:32px;transition:border-color .3s}
+.proj:hover{border-color:rgba(255,255,255,.16)}
+.proj:nth-child(even) .viz{order:2}
+.viz{background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:14px;aspect-ratio:36/26;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.viz svg{width:100%;height:100%}
+.viz text{font-family:var(--mono);font-size:10px;fill:var(--muted)}
+.viz .t-a{fill:var(--amber)} .viz .t-c{fill:var(--cyan)} .viz .t-w{fill:var(--soft)}
+.viz .d{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s ease}
+.viz .f{opacity:0;transition:opacity .8s ease .5s}
+.proj.vis .viz .d{stroke-dashoffset:0}
+.proj.vis .viz .f{opacity:1}
+.ptop{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.badge{font-family:var(--mono);font-size:11.5px;padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--soft)}
+.badge.int{border-color:rgba(125,136,153,.4);color:var(--muted)}
+.proj h3{font-family:var(--display);font-size:clamp(24px,3vw,32px);font-weight:700;line-height:1.15;margin:10px 0 14px}
+.result{display:flex;align-items:baseline;gap:12px;margin-bottom:18px}
+.result .big{font-family:var(--display);font-size:clamp(34px,4vw,46px);font-weight:700;color:var(--amber);line-height:1}
+.result .lbl{font-size:14px;color:var(--soft)}
+.pmr{display:grid;gap:10px}
+.pmr div{display:grid;grid-template-columns:76px 1fr;gap:12px;font-size:15px;color:var(--soft)}
+.pmr dt{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.tags span{font-family:var(--mono);font-size:12px;color:var(--soft);background:rgba(255,255,255,.05);padding:4px 9px;border-radius:6px}
+.plinks{display:flex;flex-wrap:wrap;gap:14px;margin-top:20px}
+@media (max-width:860px){.proj{grid-template-columns:1fr;gap:24px;padding:20px}.proj:nth-child(even) .viz{order:0}}
+
+/* recognition */
+.rec{display:grid;grid-template-columns:1fr 1.3fr 1.1fr;gap:20px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px}
+.card h3{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+.gate .big{font-family:var(--display);font-size:clamp(56px,6vw,76px);font-weight:700;line-height:.95;color:var(--amber)}
+.gate .big small{display:block;font-family:var(--mono);font-size:13px;font-weight:400;color:var(--muted);margin-bottom:6px}
+.gate p{color:var(--soft);margin-top:12px}
+.lead{list-style:none;display:grid;gap:16px}
+.lead li{display:grid;gap:2px}
+.lead b{font-weight:500}
+.lead span{font-size:14px;color:var(--soft)}
+.lead .mono{font-size:12px;color:var(--muted)}
+.cert{display:grid;gap:16px}
+.cert a{display:block;text-decoration:none;border:1px solid var(--line);border-radius:12px;padding:16px;transition:border-color .2s}
+.cert a:hover{border-color:rgba(79,209,197,.5)}
+.cert b{display:block;font-weight:500;line-height:1.35}
+.cert span{font-size:13.5px;color:var(--muted)}
+.cert em{font-style:normal;font-family:var(--mono);font-size:12px;color:var(--cyan);display:block;margin-top:8px}
+@media (max-width:980px){.rec{grid-template-columns:1fr}}
+
+/* skills */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px}
+.sk h3{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.sk .row{display:flex;flex-wrap:wrap;gap:8px}
+.sk button{font-family:var(--body);font-size:14px;color:var(--soft);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:8px;padding:6px 11px;cursor:default;transition:color .2s,border-color .2s,background .2s}
+.sk button[data-u]{cursor:pointer}
+.sk button[data-u]:hover,.sk button[data-u]:focus-visible,.sk button.on{color:var(--text);border-color:rgba(79,209,197,.5);background:rgba(79,209,197,.08)}
+.usage{min-height:28px;margin-top:28px;font-family:var(--mono);font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.usage a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(79,209,197,.35)}
+
+/* contact */
+.contact{text-align:center;padding-bottom:140px}
+.contact h2{font-size:clamp(40px,7vw,88px);max-width:900px;margin:0 auto}
+.contact h2 em{font-style:normal;color:var(--amber)}
+.contact p{color:var(--soft);font-size:18px;margin:20px auto 34px;max-width:520px}
+.mail{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:clamp(14px,2.2vw,18px);color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 20px;cursor:pointer;transition:border-color .2s}
+.mail:hover{border-color:rgba(255,181,71,.5)}
+.mail .k{font-size:12px;color:var(--amber);border:1px solid rgba(255,181,71,.35);border-radius:6px;padding:2px 7px}
+.socials{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:28px}
+
+footer{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding:24px var(--gut);border-top:1px solid var(--line);font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.bgtoggle{font:inherit;color:var(--muted);background:none;border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer}
+.bgtoggle:hover{color:var(--text)}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;z-index:40;font-family:var(--mono);font-size:13px;background:var(--text);color:var(--bg);padding:10px 16px;border-radius:10px;transition:opacity .25s,transform .25s;pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* command palette */
+.cmdk{position:fixed;inset:0;z-index:50;display:none;align-items:flex-start;justify-content:center;padding:14vh 16px 16px;background:rgba(3,5,10,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.cmdk.open{display:flex}
+.cmdk-box{width:100%;max-width:560px;background:var(--panel-solid);border:1px solid rgba(255,255,255,.12);border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.5);overflow:hidden}
+.cmdk input{width:100%;font:inherit;font-size:16px;color:var(--text);background:none;border:none;border-bottom:1px solid var(--line);padding:18px 20px;outline:none}
+.cmdk ul{list-style:none;max-height:340px;overflow:auto;padding:8px}
+.cmdk li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;cursor:pointer;color:var(--soft);font-size:15px}
+.cmdk li span{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.cmdk li.sel{background:rgba(255,255,255,.07);color:var(--text)}
+.cmdk .hint{display:flex;gap:16px;padding:10px 20px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none;transition:none}
+  .track,.pulse{animation:none}
+  .viz .d{stroke-dashoffset:0;transition:none}
+  .viz .f{opacity:1;transition:none}
+}
+</style>
+</head>
+<body>
+<canvas id="scene" aria-hidden="true"></canvas>
+<div id="progress"></div>
+<div class="legend" id="legend" aria-hidden="true"><span><i></i>actual</span><span><i class="f"></i>forecast</span><span><i class="b"></i>uncertainty band</span></div>
+
+<nav aria-label="Main">
+  <a class="logo" href="#top" aria-label="Vaibhav Singh, home">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0D1321" stroke="rgba(255,255,255,.12)"/><path d="M4 22 C9 22 9 12 13 12 S17 18 20 16 S24 7 28 9" fill="none" stroke="#FFB547" stroke-width="2.6" stroke-linecap="round"/></svg>
+    Vaibhav Singh
+  </a>
+  <ul>
+    <li class="hide-m"><a class="nl" href="#about">About</a></li>
+    <li class="hide-m"><a class="nl" href="#experience">Experience</a></li>
+    <li class="hide-m"><a class="nl" href="#projects">Projects</a></li>
+    <li class="hide-m"><a class="nl" href="#recognition">Recognition</a></li>
+    <li class="hide-m"><a class="nl" href="#certificates">Certificates</a></li>
+    <li class="hide-m"><a class="nl" href="#contact">Contact</a></li>
+    <li><button class="kbtn" id="kbtn" type="button" aria-label="Open command menu"><span id="kmod">⌘</span>K</button></li>
+    <li><a class="nav-cv" href="resume.pdf" target="_blank" rel="noopener">Resume</a></li>
+  </ul>
+</nav>
+
+<main>
+<!-- HERO -->
+<section class="hero" id="top" data-mode="hero">
+  <div class="eyebrow">Machine Learning Engineer · <b>GATE DA&amp;AI AIR 398</b> · India</div>
+  <h1>Vaibhav<br>Singh</h1>
+  <p class="pitch">I build machine learning that people actually rely on, mostly forecasting and trading systems for the <strong>power market</strong>. <strong>Research → Train → Productionize.</strong></p>
+  <div class="cta">
+    <a class="btn primary" href="resume.pdf" target="_blank" rel="noopener">Download resume</a>
+    <a class="btn" href="https://github.com/singhvaibhav924" target="_blank" rel="noopener">GitHub ↗</a>
+    <a class="btn" href="https://www.linkedin.com/in/i-m-d-vaibhav/" target="_blank" rel="noopener">LinkedIn ↗</a>
+  </div>
+  <div class="ticker" aria-label="Key results"><div class="track" id="track"></div></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" data-mode="hero">
+  <div class="sec-head rv"><span class="idx">01</span><h2>About</h2></div>
+  <div class="about-grid">
+    <div class="rv">
+      <p>I'm a Machine Learning Engineer, and for over a year I've been working in the <strong>power market</strong>. Most of what I build goes live for clients: forecasts for electricity prices, demand and solar generation, and the trading strategies that run on top of them.</p>
+      <p>I've also spent a good amount of time with <strong>LLMs</strong>: how they work, where they're actually useful, and how to evaluate them properly before trusting one in production.</p>
+      <p>Before this, I worked for a few months on a <strong>DRDO</strong> research project and did deep learning research at <strong>JNU</strong>. I also secured <strong>All India Rank 398 in GATE Data Science &amp; AI</strong>.</p>
+    </div>
+    <aside class="now rv" aria-label="Right now">
+      <h3><span class="pulse"></span>Right now</h3>
+      <ul>
+        <li>Building forecasting and trading systems for the Indian power market</li>
+        <li>Getting better at evaluating LLMs and agents</li>
+        <li>Open to new ML Engineering roles</li>
+      </ul>
+    </aside>
+  </div>
+  <div class="pipe rv" aria-label="How I work">
+    <div class="stage">
+      <div class="n">01</div>
+      <h3>Research</h3>
+      <p>I start with the problem, not the model. Reading what has already been tried and setting up a fair baseline saves more time than any clever architecture.</p>
+    </div>
+    <div class="stage">
+      <div class="n">02</div>
+      <h3>Train</h3>
+      <p>Start simple, measure honestly, and add complexity only when the numbers ask for it. A transformer shouldn't be the first answer to every problem.</p>
+    </div>
+    <div class="stage">
+      <div class="n">03</div>
+      <h3>Productionize</h3>
+      <p>A model only counts once someone depends on it. Reliability, reproducibility and running cost matter to me as much as accuracy.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" data-mode="price">
+  <div class="sec-head rv"><span class="idx">02</span><h2>Experience</h2></div>
+  <div class="tl" id="tl">
+    <div class="fill" id="tlfill"></div>
+
+    <article class="job rv" id="x-reint">
+      <div class="when">Aug 2025 – now</div>
+      <h3>Machine Learning Engineer</h3>
+      <div class="org">REint Technologies Pvt Ltd</div>
+      <div class="chips"><span class="chip">57% win rate</span><span class="chip">15% price MAPE</span><span class="chip">3% demand MAPE</span><span class="chip">−50% LLM cost</span><span class="chip">−11% solar MAE</span></div>
+      <ul>
+        <li>Led research and development of new <b>power-market trading strategies</b>, raising backtested win rate from <b>51% to 57%</b> while keeping drawdown under 13%.</li>
+        <li>Owned <b>evaluation of a client-facing LLM agent</b>, benchmarking proprietary and open-weight models to drive a <b>production model switch</b> with 50% lower inference cost.</li>
+        <li>Researched and built an <b>electricity price forecasting</b> system for the Indian market at <b>15% MAPE</b>, plus day-ahead and intraday <b>demand forecasting</b> at <b>3% MAPE</b>.</li>
+        <li>Improved client-facing <b>solar generation forecasting</b> for Ireland, cutting overall portfolio MAE by 11%.</li>
+      </ul>
+    </article>
+
+    <article class="job rv" id="x-drdo">
+      <div class="when">Jan 2025 – May 2025</div>
+      <h3>Generative AI, Defence Research Project</h3>
+      <div class="org">DRDO × Jawaharlal Nehru University</div>
+      <ul>
+        <li>Worked on a <b>joint defence research project</b> between JNU and the Ministry of Defence, focused on remote sensing and AI.</li>
+        <li>Delivered a <b>GenAI solution</b> that converts Synthetic Aperture Radar (SAR) signals into optical images.</li>
+        <li>Improved all-weather <b>satellite object detection and reconnaissance</b> with a GAN-based architecture.</li>
+      </ul>
+      <div class="tlinks"><a class="tlink" href="https://drive.google.com/file/d/1X3_w6zikgiBLUe9yEV3wB3GxEoeTgKMt/view?usp=sharing" target="_blank" rel="noopener">Certificate of experience ↗</a></div>
+    </article>
+
+    <article class="job rv" id="x-jnu">
+      <div class="when">Jun 2024 – Dec 2024</div>
+      <h3>Research Intern, Non-Linearity in Deep Learning</h3>
+      <div class="org">Jawaharlal Nehru University <span>· under Prof. Dr. Pushpendra Singh</span></div>
+      <ul>
+        <li>Designed an <b>image-augmentation technique</b> that increases non-linearity in CNNs, validated with <b>ablation studies</b> across network depth, width and activation functions.</li>
+        <li>Benchmarked against <b>reproduced SOTA baselines</b>, improving classification accuracy and segmentation <b>IoU by 1–2%</b> on CIFAR-10 and an aerial-view segmentation dataset.</li>
+      </ul>
+      <div class="tlinks"><a class="tlink" href="https://drive.google.com/file/d/1AV6Ghm_xjo_qHFPpnJcocAehqTArnSoe/view?usp=sharing" target="_blank" rel="noopener">Certificate of experience ↗</a></div>
+    </article>
+
+    <article class="job rv" id="x-ati">
+      <div class="when">Oct 2022 – Jul 2023</div>
+      <h3>Full Stack Developer</h3>
+      <div class="org">AtiUttam <span>· Remote / Noida</span></div>
+      <div class="chips"><span class="chip">−70% query resolution time</span><span class="chip">+10% retention</span></div>
+      <ul>
+        <li>Designed and built a scalable <b>SaaS platform from zero to MVP</b> on Cloudflare Workers.</li>
+        <li>Cut query resolution time by <b>70%</b>, lifting the client's customer retention rate by 10%.</li>
+        <li>Picked up product development skills while shipping the SaaS product.</li>
+      </ul>
+      <div class="tlinks">
+        <a class="tlink" href="https://drive.google.com/file/d/1uQvwfplzLB1pxDpfg7LyetssFCc5PqdB/view?usp=drive_link" target="_blank" rel="noopener">Certificate of experience ↗</a>
+        <a class="tlink" href="https://drive.google.com/file/d/1NbbZ0kbXsK5HPiAwGymbgaYHoNxmo4eS/view?usp=drive_link" target="_blank" rel="noopener">Letter of recommendation ↗</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" data-mode="calm">
+  <div class="sec-head rv"><span class="idx">03</span><h2>Projects</h2></div>
+  <div class="projects">
+
+    <!-- Chess AI -->
+    <article class="proj rv" id="p-chess">
+      <div class="viz" aria-hidden="true">
+        <svg viewBox="0 0 360 260">
+          <g id="board" transform="translate(22,46)"></g>
+          <text x="22" y="36">board + 4 past positions</text>
+          <path class="d" pathLength="1" d="M106 86 H128" stroke="#7D8899" stroke-width="1.5" fill="none"/>
+          <g class="f">
+            <rect x="132" y="56" width="34" height="60" rx="4" fill="rgba(79,209,197,.08)" stroke="#4FD1C5"/>
+            <rect x="140" y="62" width="34" height="60" rx="4" fill="rgba(79,209,197,.08)" stroke="#4FD1C5"/>
+            <rect x="148" y="68" width="34" height="60" rx="4" fill="rgba(13,19,33,1)" stroke="#4FD1C5"/>
+            <text x="153" y="101" class="t-c">CNN</text>
+            <text x="134" y="146">5M+ params</text>
+          </g>
+          <path class="d" pathLength="1" d="M184 90 C204 90 204 60 222 60" stroke="#7D8899" stroke-width="1.5" fill="none"/>
+          <path class="d" pathLength="1" d="M184 106 C204 106 204 130 222 130" stroke="#7D8899" stroke-width="1.5" fill="none"/>
+          <g class="f">
+            <text x="226" y="40" class="t-w">policy head</text>
+            <rect x="226" y="52" width="10" height="16" fill="#FFB547" opacity=".35"/><rect x="240" y="46" width="10" height="22" fill="#FFB547"/><rect x="254" y="58" width="10" height="10" fill="#FFB547" opacity=".35"/><rect x="268" y="55" width="10" height="13" fill="#FFB547" opacity=".35"/><rect x="282" y="61" width="10" height="7" fill="#FFB547" opacity=".35"/>
+            <text x="226" y="114" class="t-w">value head</text>
+            <rect x="226" y="122" width="110" height="10" rx="5" fill="rgba(255,255,255,.06)"/><rect x="281" y="122" width="34" height="10" rx="5" fill="#4FD1C5"/>
+            <text x="300" y="148" class="t-c">+0.62</text>
+          </g>
+          <!-- search tree -->
+          <g class="f" transform="translate(0,6)">
+            <text x="22" y="186">TD-λ tree search</text>
+          </g>
+          <path class="d" pathLength="1" d="M180 182 L120 212 M180 182 L180 212 M180 182 L240 212 M120 212 L96 240 M120 212 L140 240 M240 212 L222 240 M240 212 L262 240 M180 212 L180 240" stroke="#7D8899" stroke-width="1" fill="none"/>
+          <g class="f">
+            <circle cx="180" cy="182" r="6" fill="#FFB547"/>
+            <circle cx="120" cy="212" r="5" fill="#4FD1C5"/><circle cx="180" cy="212" r="5" fill="#4FD1C5" opacity=".5"/><circle cx="240" cy="212" r="5" fill="#4FD1C5"/>
+            <circle cx="96" cy="240" r="4" fill="#7D8899"/><circle cx="140" cy="240" r="4" fill="#7D8899"/><circle cx="180" cy="240" r="4" fill="#7D8899"/><circle cx="222" cy="240" r="4" fill="#7D8899"/><circle cx="262" cy="240" r="4" fill="#7D8899"/>
+            <text x="276" y="216">self-play</text><text x="276" y="230">rollouts</text>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <div class="ptop">Aug 2023 – May 2024 <span class="badge">Deep RL</span></div>
+        <h3>Chess AI: learning chess from scratch</h3>
+        <div class="result"><span class="big">1100</span><span class="lbl">ELO from pure self-play, no human games</span></div>
+        <dl class="pmr">
+          <div><dt>Problem</dt><dd>Teach an agent to play chess with no supervised data at all.</dd></div>
+          <div><dt>Method</dt><dd>Actor-critic CNN (5M+ params) with policy and value heads, trained on thousands of TD-λ tree-search simulations per state. A compressed board encoding cut model input and output size by 49% and 85%.</dd></div>
+          <div><dt>Scale</dt><dd>Client-server training architecture running 100+ parallel simulations on AWS EC2.</dd></div>
+        </dl>
+        <div class="tags"><span>TensorFlow</span><span>Keras</span><span>C++</span><span>Python</span><span>AWS EC2</span><span>Flask</span></div>
+        <div class="plinks"><a class="tlink" href="https://github.com/singhvaibhav924/Chess-AI" target="_blank" rel="noopener">Source on GitHub ↗</a><a class="tlink" href="https://ai-chess-gd9d.onrender.com/" target="_blank" rel="noopener">Play the live demo ↗</a></div>
+      </div>
+    </article>
+
+    <!-- Power forecasting -->
+    <article class="proj rv" id="p-power">
+      <div class="viz" aria-hidden="true">
+        <svg viewBox="0 0 360 260">
+          <path d="M30 20 V200 H340" stroke="rgba(255,255,255,.15)" fill="none"/>
+          <text x="34" y="30">₹ per MWh</text>
+          <path class="f" d="M210 110 C240 70 262 52 290 70 S325 120 340 100 L340 150 C322 168 300 132 290 116 S238 120 210 128 Z" fill="rgba(255,181,71,.12)"/>
+          <path class="d" pathLength="1" d="M30 150 C52 150 58 120 80 112 S108 128 122 132 S150 90 170 76 S196 108 210 118" stroke="#4FD1C5" stroke-width="2" fill="none"/>
+          <path class="f" d="M30 146 C52 146 60 118 80 116 S110 126 122 128 S152 92 170 82 S198 110 210 119 C240 92 262 58 290 93 S325 132 340 125" stroke="#FFB547" stroke-width="1.6" stroke-dasharray="5 5" fill="none"/>
+          <line x1="210" y1="20" x2="210" y2="200" stroke="rgba(255,255,255,.18)" stroke-dasharray="3 4"/>
+          <g class="f">
+            <circle cx="210" cy="118" r="4" fill="#4FD1C5"/>
+            <text x="216" y="34" class="t-w">now</text>
+            <text x="252" y="34" class="t-a">forecast →</text>
+            <path d="M122 222 l6 -10 l6 10 z" fill="#4FD1C5"/><text x="140" y="222" class="t-c">BUY</text>
+            <path d="M286 212 l6 10 l6 -10 z" fill="#FFB547"/><text x="304" y="222" class="t-a">SELL</text>
+            <text x="30" y="246">signal from forecast spread · backtested</text>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <div class="ptop">2025 – now · REint <span class="badge int">Internal work · code not public</span></div>
+        <h3>Power-market forecasting &amp; trading</h3>
+        <div class="result"><span class="big">51→57%</span><span class="lbl">backtested win rate, drawdown under 13%</span></div>
+        <dl class="pmr">
+          <div><dt>Problem</dt><dd>Indian power-exchange prices and grid demand are volatile, and trading on them needs reliable forecasts.</dd></div>
+          <div><dt>Method</dt><dd>Built an electricity price forecasting system and day-ahead plus intraday demand forecasting, then researched trading strategies on top of them.</dd></div>
+          <div><dt>Result</dt><dd><b>15% MAPE</b> on prices, <b>3% MAPE</b> on demand, and a win rate raised from 51% to 57%.</dd></div>
+        </dl>
+        <div class="tags"><span>Time-series forecasting</span><span>Statistical modelling</span><span>Backtesting</span><span>Python</span><span>DuckDB</span></div>
+      </div>
+    </article>
+
+    <!-- LLM eval -->
+    <article class="proj rv" id="p-llm">
+      <div class="viz" aria-hidden="true">
+        <svg viewBox="0 0 360 260">
+          <path d="M40 24 V210 H336" stroke="rgba(255,255,255,.15)" fill="none"/>
+          <text x="44" y="34">quality ↑</text>
+          <text x="270" y="228">cost per call →</text>
+          <path class="f" d="M60 190 C90 120 130 82 180 66 S280 46 330 42" stroke="#7D8899" stroke-width="1" stroke-dasharray="4 4" fill="none"/>
+          <g class="f">
+            <circle cx="96" cy="160" r="5" fill="#7D8899"/><circle cx="130" cy="150" r="5" fill="#7D8899"/>
+            <circle cx="214" cy="104" r="5" fill="#7D8899"/><circle cx="250" cy="120" r="5" fill="#7D8899"/>
+            <circle cx="300" cy="46" r="6" fill="none" stroke="#B6C0CF" stroke-width="1.5"/>
+            <text x="250" y="70" class="t-w">previous model</text>
+            <circle cx="160" cy="76" r="6" fill="#FFB547"/>
+            <circle cx="160" cy="76" r="12" fill="none" stroke="rgba(255,181,71,.45)"/>
+            <text x="94" y="58" class="t-a">chosen: −50% cost</text>
+            <text x="60" y="250">proprietary + open-weight models benchmarked</text>
+          </g>
+          <path class="d" pathLength="1" d="M292 50 C250 64 210 70 176 75" stroke="#FFB547" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+      <div>
+        <div class="ptop">2025 – now · REint <span class="badge int">Internal work · code not public</span></div>
+        <h3>LLM agent evaluation</h3>
+        <div class="result"><span class="big">−50%</span><span class="lbl">inference cost after the production model switch</span></div>
+        <dl class="pmr">
+          <div><dt>Problem</dt><dd>A client-facing LLM agent was running on an expensive model, with no hard evidence on cheaper options.</dd></div>
+          <div><dt>Method</dt><dd>Owned the evaluation end to end: benchmarked proprietary and open-weight LLMs on the agent's real tasks, weighing quality against cost.</dd></div>
+          <div><dt>Result</dt><dd>The results drove a production model switch that halved inference cost.</dd></div>
+        </dl>
+        <div class="tags"><span>LLM evaluation</span><span>Open-weight LLMs</span><span>Agentic workflows</span><span>Python</span></div>
+      </div>
+    </article>
+
+    <!-- Research Bot -->
+    <article class="proj rv" id="p-rbot">
+      <div class="viz" aria-hidden="true">
+        <svg viewBox="0 0 360 260">
+          <g class="f">
+            <rect x="18" y="40" width="84" height="40" rx="8" fill="rgba(255,255,255,.04)" stroke="#7D8899"/>
+            <text x="30" y="58" class="t-w">abstract</text><text x="30" y="71">or query</text>
+            <rect x="138" y="40" width="84" height="40" rx="8" fill="rgba(79,209,197,.08)" stroke="#4FD1C5"/>
+            <text x="150" y="58" class="t-c">LLM 1</text><text x="150" y="71">keywords</text>
+            <rect x="258" y="32" width="80" height="48" rx="6" fill="#0D1321" stroke="#7D8899"/>
+            <rect x="252" y="38" width="80" height="48" rx="6" fill="#0D1321" stroke="#7D8899"/>
+            <text x="262" y="58" class="t-w">latest</text><text x="262" y="71">papers</text>
+            <rect x="252" y="150" width="84" height="40" rx="8" fill="rgba(79,209,197,.08)" stroke="#4FD1C5"/>
+            <text x="264" y="168" class="t-c">LLM 2</text><text x="264" y="181">summarise</text>
+            <rect x="138" y="150" width="84" height="40" rx="8" fill="rgba(79,209,197,.08)" stroke="#4FD1C5"/>
+            <text x="150" y="168" class="t-c">LLM 3</text><text x="150" y="181">synthesise</text>
+            <rect x="18" y="136" width="84" height="70" rx="6" fill="rgba(255,181,71,.07)" stroke="#FFB547"/>
+            <text x="28" y="154" class="t-a">review</text>
+            <rect x="28" y="162" width="62" height="3" fill="#7D8899"/><rect x="28" y="170" width="54" height="3" fill="#7D8899"/><rect x="28" y="178" width="60" height="3" fill="#7D8899"/>
+            <text x="28" y="198" class="t-a">[1] [2] [3]</text>
+            <text x="18" y="240">LangChain orchestrates every stage</text>
+          </g>
+          <path class="d" pathLength="1" d="M102 60 H136 M222 60 H250 M294 88 V148 M252 170 H224 M138 170 H104" stroke="#B6C0CF" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+      <div>
+        <div class="ptop">Jun 2024 – Jul 2024 <span class="badge">Generative AI</span></div>
+        <h3>Research Bot: automated literature reviews</h3>
+        <div class="result"><span class="big">−80%</span><span class="lbl">manual effort for a literature review</span></div>
+        <dl class="pmr">
+          <div><dt>Problem</dt><dd>Starting research on a new topic means days of finding and summarising recent papers.</dd></div>
+          <div><dt>Method</dt><dd>Three LLMs at different stages, orchestrated with LangChain: generate search terms, retrieve and summarise the latest papers, then write a literature review with proper citations.</dd></div>
+          <div><dt>Result</dt><dd>Paste an abstract or idea and get a referenced review back. Deployed with a FastAPI backend.</dd></div>
+        </dl>
+        <div class="tags"><span>LangChain</span><span>Hugging Face</span><span>Transformers</span><span>FastAPI</span><span>Python</span></div>
+        <div class="plinks"><a class="tlink" href="https://github.com/singhvaibhav924/Research-Bot-Notebook" target="_blank" rel="noopener">Source on GitHub ↗</a><a class="tlink" href="https://research-bot-client.onrender.com/" target="_blank" rel="noopener">Try the live demo ↗</a></div>
+      </div>
+    </article>
+
+    <!-- SAR -->
+    <article class="proj rv" id="p-sar">
+      <div class="viz" aria-hidden="true">
+        <svg viewBox="0 0 360 260">
+          <text x="22" y="40">SAR (radar)</text>
+          <g id="speckle" transform="translate(22,50)"></g>
+          <path class="d" pathLength="1" d="M138 110 H158 M202 110 H222" stroke="#B6C0CF" stroke-width="1.5" fill="none"/>
+          <g class="f">
+            <rect x="160" y="88" width="40" height="44" rx="8" fill="rgba(79,209,197,.08)" stroke="#4FD1C5"/>
+            <text x="166" y="114" class="t-c">GAN</text>
+            <text x="226" y="40">optical-style</text>
+            <g transform="translate(226,50)">
+              <rect width="112" height="120" rx="4" fill="#1B2A22"/>
+              <path d="M0 78 C30 70 50 92 112 70 V120 H0 Z" fill="#23402F"/>
+              <path d="M0 30 C28 40 60 18 112 36" stroke="#2F5F7A" stroke-width="9" fill="none"/>
+              <path d="M70 0 L58 120" stroke="#5B5546" stroke-width="4"/>
+              <rect x="14" y="52" width="20" height="14" fill="#6D6A5E"/><rect x="80" y="86" width="16" height="12" fill="#6D6A5E"/>
+            </g>
+            <rect x="236" y="98" width="28" height="22" fill="none" stroke="#FFB547" stroke-dasharray="3 3"/>
+            <text x="236" y="94" class="t-a">obj</text>
+            <rect x="302" y="132" width="24" height="20" fill="none" stroke="#FFB547" stroke-dasharray="3 3"/>
+            <text x="22" y="200" class="t-w">all-weather, day or night</text>
+            <text x="22" y="216">radar sees through cloud; the GAN makes it readable</text>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <div class="ptop">Jan 2025 – May 2025 · DRDO × JNU <span class="badge">Generative AI</span></div>
+        <h3>SAR-to-optical image translation</h3>
+        <div class="result"><span class="big">GAN</span><span class="lbl">radar signals turned into readable optical images</span></div>
+        <dl class="pmr">
+          <div><dt>Problem</dt><dd>Radar (SAR) satellites see through cloud and darkness, but their images are hard for people and detectors to read.</dd></div>
+          <div><dt>Method</dt><dd>A GAN-based architecture that translates SAR signals into optical-style images, built for a joint JNU and Ministry of Defence research project.</dd></div>
+          <div><dt>Result</dt><dd>Improved all-weather object detection and reconnaissance from satellite imagery.</dd></div>
+        </dl>
+        <div class="tags"><span>GANs</span><span>Computer vision</span><span>Remote sensing</span><span>Python</span></div>
+        <div class="plinks"><a class="tlink" href="https://drive.google.com/file/d/1X3_w6zikgiBLUe9yEV3wB3GxEoeTgKMt/view?usp=sharing" target="_blank" rel="noopener">Certificate ↗</a></div>
+      </div>
+    </article>
+
+    <!-- Brain tumor -->
+    <article class="proj rv" id="p-brain">
+      <div class="viz" aria-hidden="true">
+        <svg viewBox="0 0 360 260">
+          <text x="22" y="40">MRI scan</text>
+          <g class="f">
+            <ellipse cx="66" cy="112" rx="44" ry="54" fill="rgba(255,255,255,.04)" stroke="#B6C0CF"/>
+            <path d="M66 62 V162" stroke="rgba(182,192,207,.35)"/>
+            <path d="M36 90 C48 80 56 96 46 104 M86 128 C96 120 100 136 90 140" stroke="rgba(182,192,207,.35)" fill="none"/>
+            <circle cx="84" cy="96" r="10" fill="rgba(255,181,71,.35)" stroke="#FFB547"/>
+            <rect x="140" y="88" width="10" height="48" rx="2" fill="rgba(79,209,197,.25)" stroke="#4FD1C5"/>
+            <rect x="156" y="80" width="10" height="64" rx="2" fill="rgba(79,209,197,.25)" stroke="#4FD1C5"/>
+            <rect x="172" y="72" width="10" height="80" rx="2" fill="rgba(79,209,197,.25)" stroke="#4FD1C5"/>
+            <rect x="188" y="84" width="10" height="56" rx="2" fill="rgba(79,209,197,.25)" stroke="#4FD1C5"/>
+            <rect x="204" y="96" width="10" height="32" rx="2" fill="rgba(79,209,197,.25)" stroke="#4FD1C5"/>
+            <text x="132" y="172" class="t-c">EfficientNetV2-B1</text>
+            <text x="132" y="186">ImageNet, fine-tuned</text>
+            <text x="250" y="66">glioma</text><rect x="250" y="71" width="16" height="6" rx="2" fill="#7D8899"/>
+            <text x="250" y="96" class="t-a">meningioma</text><rect x="250" y="101" width="86" height="6" rx="2" fill="#FFB547"/>
+            <text x="250" y="126">pituitary</text><rect x="250" y="131" width="10" height="6" rx="2" fill="#7D8899"/>
+            <text x="250" y="156">no tumor</text><rect x="250" y="161" width="6" height="6" rx="2" fill="#7D8899"/>
+            <text x="22" y="230">4 classes · ~7k MRI scans · 98.9% test accuracy</text>
+          </g>
+          <path class="d" pathLength="1" d="M112 112 H136 M218 112 H244" stroke="#B6C0CF" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+      <div>
+        <div class="ptop">Jun 2024 <span class="badge">Computer vision</span></div>
+        <h3>Brain tumor detection from MRI</h3>
+        <div class="result"><span class="big">98.9%</span><span class="lbl">test accuracy across 4 tumor classes</span></div>
+        <dl class="pmr">
+          <div><dt>Problem</dt><dd>Classify brain MRI scans as glioma, meningioma, pituitary tumor or no tumor.</dd></div>
+          <div><dt>Method</dt><dd>Fine-tuned an ImageNet-pretrained EfficientNetV2-B1 (7.6M params) with its top layers unfrozen, using early stopping and learning-rate scheduling on about 7,000 scans.</dd></div>
+          <div><dt>Result</dt><dd>98.9% accuracy on the held-out test set, with the confusion matrix and training curves in the repo.</dd></div>
+        </dl>
+        <div class="tags"><span>TensorFlow</span><span>Keras</span><span>Transfer learning</span><span>Computer vision</span></div>
+        <div class="plinks"><a class="tlink" href="https://github.com/singhvaibhav924/Brain-Tumor-Detection-CNN" target="_blank" rel="noopener">Source on GitHub ↗</a></div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- RECOGNITION -->
+<section id="recognition" data-mode="flat">
+  <div class="sec-head rv"><span class="idx">04</span><h2>Recognition &amp; leadership</h2></div>
+  <div class="rec">
+    <div class="card gate rv">
+      <h3>Achievement</h3>
+      <div class="big"><small>GATE Data Science &amp; AI 2025</small>AIR 398</div>
+      <p>All India Rank in India's national graduate engineering exam for Data Science and AI.</p>
+    </div>
+    <div class="card rv">
+      <h3>Leadership</h3>
+      <ul class="lead">
+        <li><b>Vice President, Loop: The Developers' Club</b><span>Guided 20+ students through a 75-day summer mentorship program in AI/ML.</span><span class="mono">Sep 2023 – Aug 2024</span></li>
+        <li><b>Lead organiser, EngQuest and HackJNU</b><span>Led the organising team for the School of Engineering tech fest and JNU's hackathon.</span><span class="mono">Jan 2024 – Mar 2024</span></li>
+        <li><b>Placement Cell Executive</b><span>School of Engineering, JNU.</span><span class="mono">2024 – 2025</span></li>
+        <li><b>Web Development Executive, Loop</b><span>The Developers' Club, JNU.</span><span class="mono">Nov 2022 – Sep 2023</span></li>
+      </ul>
+    </div>
+    <div class="card rv" id="certificates">
+      <h3>Certifications</h3>
+      <div class="cert">
+        <a href="https://drive.google.com/file/d/1vGoYj6biXbHc_JQHACi-Gk5Z6an1hcxc/view?usp=sharing" target="_blank" rel="noopener">
+          <b>Generative AI with Large Language Models</b><span>AWS × DeepLearning.AI · RLHF, instruction fine-tuning, PEFT, LoRA</span><em>View certificate ↗</em>
+        </a>
+        <a href="https://drive.google.com/file/d/16zQD1dkxYeS_2erPfZkISUxi3Lqu9yNa/view?usp=sharing" target="_blank" rel="noopener">
+          <b>Generative AI with Diffusion Models</b><span>NVIDIA · GANs, VAEs, diffusion, vision transformers</span><em>View certificate ↗</em>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" data-mode="flat">
+  <div class="sec-head rv"><span class="idx">05</span><h2>Skills</h2></div>
+  <div class="skills-grid rv" id="skills-grid"></div>
+  <div class="usage" id="usage" aria-live="polite"><span>Hover or tap a skill to see where I've used it.</span></div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact" data-mode="flat">
+  <h2 class="rv">Let's build something that <em>forecasts well.</em></h2>
+  <p class="rv">Open to ML Engineering roles across forecasting, LLM systems and applied research.</p>
+  <button class="mail rv" id="mail" type="button" aria-label="Copy email address">singhsikarwarvaibhav@gmail.com <span class="k">copy</span></button>
+  <div class="socials rv">
+    <a class="btn" href="mailto:singhsikarwarvaibhav@gmail.com">Email</a>
+    <a class="btn" href="https://www.linkedin.com/in/i-m-d-vaibhav/" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a class="btn" href="https://github.com/singhvaibhav924" target="_blank" rel="noopener">GitHub ↗</a>
+    <a class="btn" href="https://x.com/ZeroMeanSigma" target="_blank" rel="noopener">X ↗</a>
+    <a class="btn" href="https://www.kaggle.com/imdvaibhav" target="_blank" rel="noopener">Kaggle ↗</a>
+    <a class="btn" href="https://leetcode.com/u/singhvaibhav924/" target="_blank" rel="noopener">LeetCode ↗</a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <span>© <span id="yr"></span> Vaibhav Singh · press <span id="kmod2">⌘</span>K to jump anywhere</span>
+  <button class="bgtoggle" id="bgtoggle" type="button" aria-pressed="true">Background: on</button>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+
+<div class="cmdk" id="cmdk" role="dialog" aria-modal="true" aria-label="Command menu">
+  <div class="cmdk-box">
+    <input id="cmdk-in" type="text" placeholder="Jump to a section or run an action…" autocomplete="off" spellcheck="false" aria-label="Search commands">
+    <ul id="cmdk-list" role="listbox"></ul>
+    <div class="hint"><span>↑↓ navigate</span><span>↵ select</span><span>esc close</span></div>
+  </div>
+</div>
+
+<script>
+document.getElementById("yr").textContent = new Date().getFullYear();
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+if (!isMac) { document.getElementById("kmod").textContent = "Ctrl "; document.getElementById("kmod2").textContent = "Ctrl+"; }
+const EMAIL = "singhsikarwarvaibhav@gmail.com";
+
+/* ticker */
+(() => {
+  const items = [
+    ["WIN RATE", "57%", "▲ from 51%", "up"], ["PRICE MAPE", "15%", "Indian power market", ""],
+    ["DEMAND MAPE", "3%", "day-ahead + intraday", ""], ["LLM INFERENCE COST", "−50%", "model switch", "dn"],
+    ["SOLAR PORTFOLIO MAE", "−11%", "Ireland", "dn"], ["MAX DRAWDOWN", "<13%", "backtested", ""],
+    ["GATE DA&AI", "AIR 398", "2025", "up"], ["CHESS RL", "1100 ELO", "pure self-play", ""],
+    ["BRAIN MRI", "98.9%", "test accuracy", ""]
+  ];
+  const html = items.map(([k, v, s, c]) => `<span class="titem">${k}<em>${v}</em><span class="${c}">${s}</span></span>`).join("");
+  document.getElementById("track").innerHTML = html + html;
+})();
+
+/* project diagram details: chess board + SAR speckle (seeded so they never change) */
+(() => {
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const NS = "http://www.w3.org/2000/svg";
+  const board = document.getElementById("board");
+  const pieces = { "0,1": 1, "1,3": 1, "2,2": 2, "3,0": 2, "2,1": 1, "1,2": 2 };
+  for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) {
+    const s = document.createElementNS(NS, "rect");
+    s.setAttribute("x", c * 20); s.setAttribute("y", r * 20); s.setAttribute("width", 20); s.setAttribute("height", 20);
+    s.setAttribute("fill", (r + c) % 2 ? "rgba(255,255,255,.1)" : "rgba(255,255,255,.03)"); board.appendChild(s);
+    const p = pieces[r + "," + c];
+    if (p) { const d = document.createElementNS(NS, "circle"); d.setAttribute("cx", c * 20 + 10); d.setAttribute("cy", r * 20 + 10); d.setAttribute("r", 5);
+      d.setAttribute("fill", p === 1 ? "#EEF2F7" : "#4FD1C5"); board.appendChild(d); }
+  }
+  const sp = document.getElementById("speckle");
+  for (let r = 0; r < 15; r++) for (let c = 0; c < 14; c++) {
+    const s = document.createElementNS(NS, "rect"), v = Math.floor(30 + rnd() * 150 + (r > 9 ? 25 : 0));
+    s.setAttribute("x", c * 8); s.setAttribute("y", r * 8); s.setAttribute("width", 8); s.setAttribute("height", 8);
+    s.setAttribute("fill", `rgb(${v},${v},${v})`); s.setAttribute("opacity", ".55"); sp.appendChild(s);
+  }
+})();
+
+/* skills, with "used in" links */
+(() => {
+  const where = {
+    chess: ["Chess AI", "#p-chess"], power: ["Power forecasting & trading", "#p-power"], llm: ["LLM agent evaluation", "#p-llm"],
+    rbot: ["Research Bot", "#p-rbot"], sar: ["SAR-to-optical", "#p-sar"], brain: ["Brain tumor detection", "#p-brain"],
+    reint: ["REint", "#x-reint"], drdo: ["DRDO × JNU", "#x-drdo"], jnu: ["JNU research", "#x-jnu"], ati: ["AtiUttam", "#x-ati"]
+  };
+  const groups = [
+    ["Languages & databases", [["Python", "chess power llm rbot sar brain"], ["C++", "chess"], ["JavaScript", "ati"], ["Java"], ["SQL"], ["PostgreSQL"], ["DuckDB", "power"], ["MySQL"]]],
+    ["Core ML", [["PyTorch", "jnu"], ["TensorFlow", "chess brain"], ["Keras", "chess brain"], ["scikit-learn"], ["Time-series forecasting", "power reint"], ["Statistical modelling", "power reint"], ["Reinforcement learning", "chess"], ["Computer vision", "sar brain jnu"], ["GANs", "sar drdo"], ["Transfer learning", "brain"], ["Data analysis", "power"]]],
+    ["LLMs & GenAI", [["LLM evaluation", "llm reint"], ["Agentic workflows", "llm"], ["LangChain", "rbot"], ["LangGraph"], ["Hugging Face", "rbot"], ["Transformers", "rbot"], ["Diffusion models"], ["PEFT / LoRA"], ["Claude Code"]]],
+    ["Deployment & MLOps", [["AWS EC2", "chess"], ["Google Cloud Platform"], ["Docker"], ["MLflow"], ["DVC"], ["Git"], ["ETL", "power"], ["Cloudflare Workers", "ati"], ["Hugging Face Spaces"], ["Vercel"]]],
+    ["Web development", [["FastAPI", "rbot"], ["Flask", "chess"], ["Node.js", "ati"], ["React.js"]]],
+    ["AI security", [["Prompt injection"], ["Evasion attacks"], ["Model extraction"], ["Membership inference"], ["Inversion defence"], ["LLM poisoning"]]]
+  ];
+  const grid = document.getElementById("skills-grid"), usage = document.getElementById("usage");
+  const idle = usage.innerHTML;
+  grid.innerHTML = groups.map(([g, list]) => `<div class="sk"><h3>${g}</h3><div class="row">${
+    list.map(([n, u]) => `<button type="button"${u ? ` data-u="${u}"` : ` tabindex="-1"`}>${n}</button>`).join("")}</div></div>`).join("");
+  let pinned = null;
+  const show = b => {
+    if (!b || !b.dataset.u) { usage.innerHTML = idle; return; }
+    usage.innerHTML = `<span>${b.textContent} → used in</span>` + b.dataset.u.split(" ").map(k => `<a href="${where[k][1]}">${where[k][0]}</a>`).join("");
+  };
+  grid.addEventListener("mouseover", e => { const b = e.target.closest("button[data-u]"); if (b) show(b); });
+  grid.addEventListener("mouseleave", () => show(pinned));
+  grid.addEventListener("focusin", e => show(e.target.closest("button[data-u]")));
+  grid.addEventListener("click", e => {
+    const b = e.target.closest("button[data-u]"); if (!b) return;
+    if (pinned) pinned.classList.remove("on");
+    pinned = pinned === b ? null : b; if (pinned) pinned.classList.add("on"); show(pinned || b);
+  });
+})();
+
+/* scroll reveal */
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  e.target.classList.add("vis"); io.unobserve(e.target);
+}), { threshold: .15 });
+document.querySelectorAll(".rv").forEach((el, i) => { el.style.transitionDelay = (i % 3) * 70 + "ms"; io.observe(el); });
+
+/* nav progress, active link, timeline fill, background mode */
+const prog = document.getElementById("progress"), legend = document.getElementById("legend");
+const navLinks = [...document.querySelectorAll("nav a.nl")];
+const secs = [...document.querySelectorAll("main section[data-mode]")];
+const tl = document.getElementById("tl"), tlfill = document.getElementById("tlfill");
+let mode = "hero";
+function onScroll(){
+  const max = document.documentElement.scrollHeight - innerHeight;
+  prog.style.width = (max > 0 ? scrollY / max * 100 : 0) + "%";
+  legend.classList.toggle("away", scrollY > innerHeight * .35);
+  let cur = secs[0];
+  for (const s of secs) if (s.getBoundingClientRect().top < innerHeight * .45) cur = s;
+  mode = cur.dataset.mode;
+  const id = cur.id === "skills" ? "recognition" : cur.id;
+  navLinks.forEach(a => { const h = a.getAttribute("href"); a.classList.toggle("on", h === "#" + id || (h === "#certificates" && id === "recognition")); });
+  const r = tl.getBoundingClientRect(), k = Math.min(1, Math.max(0, (innerHeight * .6 - r.top) / r.height));
+  tlfill.style.height = (k * (r.height - 16)) + "px";
+}
+addEventListener("scroll", onScroll, { passive: true }); addEventListener("resize", onScroll); onScroll();
+
+/* toast + copy email */
+const toastEl = document.getElementById("toast"); let toastT;
+function toast(msg){ toastEl.textContent = msg; toastEl.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove("show"), 1800); }
+async function copyEmail(){
+  try { await navigator.clipboard.writeText(EMAIL); toast("Email copied"); }
+  catch (e) { location.href = "mailto:" + EMAIL; }
+}
+document.getElementById("mail").addEventListener("click", copyEmail);
+
+/* background on/off (remembered) */
+const store = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} } };
+let bgOn = store.get("bg") !== "off";
+const toggle = document.getElementById("bgtoggle");
+function applyBg(){ document.body.classList.toggle("nobg", !bgOn); toggle.textContent = "Background: " + (bgOn ? "on" : "off"); toggle.setAttribute("aria-pressed", bgOn); }
+toggle.addEventListener("click", () => { bgOn = !bgOn; store.set("bg", bgOn ? "on" : "off"); applyBg(); if (bgOn) startBg(); });
+applyBg();
+
+/* command palette */
+(() => {
+  const box = document.getElementById("cmdk"), inp = document.getElementById("cmdk-in"), list = document.getElementById("cmdk-list");
+  const go = h => () => document.querySelector(h).scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+  const open = u => () => window.open(u, "_blank", "noopener");
+  const cmds = [
+    ["About", "section", go("#about")], ["Experience", "section", go("#experience")], ["Projects", "section", go("#projects")],
+    ["Recognition & leadership", "section", go("#recognition")], ["Certificates", "section", go("#certificates")], ["Skills", "section", go("#skills")], ["Contact", "section", go("#contact")],
+    ["Chess AI", "project", go("#p-chess")], ["Power-market forecasting & trading", "project", go("#p-power")], ["LLM agent evaluation", "project", go("#p-llm")],
+    ["Research Bot", "project", go("#p-rbot")], ["SAR-to-optical translation", "project", go("#p-sar")], ["Brain tumor detection", "project", go("#p-brain")],
+    ["Copy email address", "action", copyEmail], ["Download resume", "action", open("resume.pdf")],
+    ["Open GitHub", "link", open("https://github.com/singhvaibhav924")], ["Open LinkedIn", "link", open("https://www.linkedin.com/in/i-m-d-vaibhav/")],
+    ["Play Chess AI demo", "link", open("https://ai-chess-gd9d.onrender.com/")], ["Toggle background", "action", () => toggle.click()]
+  ];
+  let shown = cmds, sel = 0, last = null;
+  const render = () => {
+    list.innerHTML = shown.map(([n, t], i) => `<li role="option" data-i="${i}" class="${i === sel ? "sel" : ""}" aria-selected="${i === sel}">${n}<span>${t}</span></li>`).join("")
+      || `<li style="cursor:default">No matches</li>`;
+    const s = list.querySelector(".sel"); if (s) s.scrollIntoView({ block: "nearest" });
+  };
+  const filter = () => { const q = inp.value.toLowerCase().trim(); shown = cmds.filter(([n, t]) => (n + " " + t).toLowerCase().includes(q)); sel = 0; render(); };
+  const show = () => { last = document.activeElement; box.classList.add("open"); inp.value = ""; filter(); inp.focus(); };
+  const hide = () => { box.classList.remove("open"); if (last) last.focus(); };
+  const run = i => { const c = shown[i]; if (!c) return; hide(); c[2](); };
+  document.getElementById("kbtn").addEventListener("click", show);
+  inp.addEventListener("input", filter);
+  list.addEventListener("click", e => { const li = e.target.closest("li[data-i]"); if (li) run(+li.dataset.i); });
+  box.addEventListener("click", e => { if (e.target === box) hide(); });
+  addEventListener("keydown", e => {
+    const typing = /INPUT|TEXTAREA/.test(document.activeElement.tagName);
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); box.classList.contains("open") ? hide() : show(); return; }
+    if (!box.classList.contains("open")) { if (e.key === "/" && !typing) { e.preventDefault(); show(); } return; }
+    if (e.key === "Escape") hide();
+    else if (e.key === "ArrowDown") { e.preventDefault(); sel = Math.min(shown.length - 1, sel + 1); render(); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); sel = Math.max(0, sel - 1); render(); }
+    else if (e.key === "Enter") { e.preventDefault(); run(sel); }
+  });
+})();
+
+/* background: streaming actual vs forecast curve that changes character per section */
+let startBg = () => {};
+(() => {
+  const cv = document.getElementById("scene"), ctx = cv.getContext("2d");
+  const light = innerWidth < 700 || (navigator.hardwareConcurrency || 8) <= 4;
+  let W, H, dpr = Math.min(devicePixelRatio || 1, light ? 1.25 : 2);
+  function resize(){ W = innerWidth; H = innerHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+  addEventListener("resize", resize); resize();
+
+  // Indian-style daily demand: morning ramp, midday solar dip, evening peak
+  const load = h => { h = ((h % 24) + 24) % 24;
+    return .55 + .18 * Math.exp(-((h - 10) ** 2) / 6) - .06 * Math.exp(-((h - 13.5) ** 2) / 3) + .26 * Math.exp(-((h - 20) ** 2) / 4) - .1 * Math.exp(-((h - 4) ** 2) / 8); };
+  // exchange-price-like evening spike
+  const spike = h => { h = ((h % 24) + 24) % 24; return .35 * Math.exp(-((h - 20.5) ** 2) / 1.1) + .12 * Math.exp(-((h - 8.5) ** 2) / .8); };
+  const noise = x => Math.sin(x * 1.7) * .5 + Math.sin(x * 4.3 + 1.3) * .3 + Math.sin(x * 9.1 + .7) * .2 + Math.sin(x * 23.7 + 2.1) * .12;
+
+  const MODES = {
+    hero:  { amp: .52, base: .86, noise: .018, spike: 0,   speed: .012, alpha: 1,   mask: 1 },
+    price: { amp: .40, base: .84, noise: .045, spike: 1,   speed: .018, alpha: .7,  mask: 0 },
+    calm:  { amp: .26, base: .90, noise: .008, spike: 0,   speed: .008, alpha: .45, mask: 0 },
+    flat:  { amp: .14, base: .92, noise: .005, spike: 0,   speed: .006, alpha: .45, mask: 0 }
+  };
+  const p = { ...MODES.hero };
+  const now0 = new Date(), istH = (now0.getUTCHours() + now0.getUTCMinutes() / 60 + 5.5) % 24;
+  let t = istH - (innerWidth < 700 ? .62 : .72) * 48, running = false;
+
+  function frame(){
+    if (!bgOn) { running = false; return; }
+    const m = MODES[mode] || MODES.hero;
+    for (const k in p) p[k] += (m[k] - p[k]) * .04;
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalAlpha = p.alpha;
+
+    ctx.strokeStyle = "rgba(255,255,255,.035)"; ctx.lineWidth = 1;
+    for (let x = -((t * 40) % 80); x < W; x += 80){ ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 80){ ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+
+    const hours = 48, step = light ? 6 : 4, nowX = W * (W < 700 ? .62 : .72);
+    const hAt = x => x / W * hours + t;
+    const fc = h => H * p.base - H * p.amp * (load(h) + p.spike * spike(h));
+    const ac = h => fc(h) - noise(h) * H * p.noise;
+    const bw = x => 6 + Math.max(0, x - nowX) * .08;
+
+    ctx.beginPath();
+    for (let x = 0; x <= W; x += step) ctx.lineTo(x, fc(hAt(x)) - bw(x));
+    for (let x = W; x >= 0; x -= step) ctx.lineTo(x, fc(hAt(x)) + bw(x));
+    ctx.fillStyle = "rgba(255,181,71,.07)"; ctx.fill();
+
+    ctx.setLineDash([6, 6]); ctx.strokeStyle = "rgba(255,181,71,.7)"; ctx.lineWidth = 1.6;
+    ctx.beginPath(); for (let x = 0; x <= W; x += step) ctx.lineTo(x, fc(hAt(x))); ctx.stroke(); ctx.setLineDash([]);
+
+    const g = ctx.createLinearGradient(0, 0, nowX, 0); g.addColorStop(0, "rgba(79,209,197,0)"); g.addColorStop(1, "rgba(79,209,197,.95)");
+    ctx.strokeStyle = g; ctx.lineWidth = 2;
+    ctx.beginPath(); for (let x = 0; x <= nowX; x += step) ctx.lineTo(x, ac(hAt(x))); ctx.stroke();
+
+    const hn = hAt(nowX), yn = ac(hn);
+    ctx.strokeStyle = "rgba(255,255,255,.1)"; ctx.beginPath(); ctx.moveTo(nowX, 0); ctx.lineTo(nowX, H); ctx.stroke();
+    ctx.fillStyle = "#4FD1C5"; ctx.beginPath(); ctx.arc(nowX, yn, 4, 0, 7); ctx.fill();
+    ctx.strokeStyle = "rgba(79,209,197,.35)"; ctx.beginPath(); ctx.arc(nowX, yn, 9 + 3 * Math.sin(t * 3), 0, 7); ctx.stroke();
+    ctx.fillStyle = "rgba(182,192,207,.55)"; ctx.font = "11px 'JetBrains Mono', monospace";
+    const d = new Date(), pad = n => String(n).padStart(2, "0");
+    const ly = Math.max(96, yn - 34);
+    ctx.fillText("NOW " + pad(d.getUTCHours()) + ":" + pad(d.getUTCMinutes()) + ":" + pad(d.getUTCSeconds()) + " UTC", nowX + 14, ly);
+    ctx.fillText("FORECAST →", nowX + 14, ly + 16);
+    ctx.globalAlpha = 1;
+
+    // keep the text column clean: fade the chart out behind the hero/about copy
+    if (p.mask > .01){
+      ctx.globalCompositeOperation = "destination-out";
+      if (W < 700) ctx.fillStyle = `rgba(0,0,0,${.65 * p.mask})`;
+      else {
+        const fg = ctx.createLinearGradient(0, 0, W, 0), a = .88 * p.mask;
+        fg.addColorStop(0, `rgba(0,0,0,${a})`); fg.addColorStop(.46, `rgba(0,0,0,${a})`); fg.addColorStop(.62, "rgba(0,0,0,0)");
+        ctx.fillStyle = fg;
+      }
+      ctx.fillRect(0, 0, W, H);
+      ctx.globalCompositeOperation = "source-over";
+    }
+
+    if (reduce) { running = false; return; }
+    t += p.speed; requestAnimationFrame(frame);
+  }
+  startBg = () => { if (!running) { running = true; requestAnimationFrame(frame); } };
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) startBg(); });
+  if (reduce) addEventListener("resize", () => { running = true; frame(); });
+  startBg();
+})();
+</script>
+<!-- Visitor analytics: GoatCounter (no cookies). Dashboard at https://singhvaibhav924.goatcounter.com -->
+<script data-goatcounter="https://singhvaibhav924.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
